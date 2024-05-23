@@ -22,6 +22,9 @@ class Tortuga
   #[Assert\Length(max: 100, maxMessage: 'Do you think you will remember his name?')]
   private ?string $name = null;
 
+  #[ORM\OneToOne(mappedBy: 'adoptedTurtle', cascade: ['persist', 'remove'])]
+  private ?Adoption $adoption = null;
+
   public function getId(): ?int
   {
     return $this->id;
@@ -37,5 +40,22 @@ class Tortuga
     $this->name = $name;
 
     return $this;
+  }
+
+  public function getAdoption(): ?Adoption
+  {
+      return $this->adoption;
+  }
+
+  public function setAdoption(Adoption $adoption): static
+  {
+      // set the owning side of the relation if necessary
+      if ($adoption->getAdoptedTurtle() !== $this) {
+          $adoption->setAdoptedTurtle($this);
+      }
+
+      $this->adoption = $adoption;
+
+      return $this;
   }
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -32,6 +34,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    /**
+     * @var Collection<int, Adoption>
+     */
+    #[ORM\OneToMany(targetEntity: Adoption::class, mappedBy: 'owner')]
+    private Collection $adoptions;
+
+    public function __construct()
+    {
+        $this->adoptions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -106,5 +119,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Adoption>
+     */
+    public function getAdoptions(): Collection
+    {
+        return $this->adoptions;
+    }
+
+    public function addAdoption(Adoption $adoption): static
+    {
+        if (!$this->adoptions->contains($adoption)) {
+            $this->adoptions->add($adoption);
+            $adoption->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdoption(Adoption $adoption): static
+    {
+        if ($this->adoptions->removeElement($adoption)) {
+            // set the owning side to null (unless already changed)
+            if ($adoption->getOwner() === $this) {
+                $adoption->setOwner(null);
+            }
+        }
+
+        return $this;
     }
 }
