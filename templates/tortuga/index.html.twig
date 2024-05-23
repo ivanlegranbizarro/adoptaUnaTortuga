@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tortuga index{% endblock %}
+
+{% block body %}
+    <h1>Tortuga index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tortuga in tortugas %}
+            <tr>
+                <td>{{ tortuga.id }}</td>
+                <td>{{ tortuga.name }}</td>
+                <td>
+                    <a href="{{ path('app_tortuga_show', {'id': tortuga.id}) }}">show</a>
+                    <a href="{{ path('app_tortuga_edit', {'id': tortuga.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_tortuga_new') }}">Create new</a>
+{% endblock %}

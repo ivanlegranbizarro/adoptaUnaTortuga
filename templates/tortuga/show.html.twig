@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tortuga{% endblock %}
+
+{% block body %}
+    <h1>Tortuga</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ tortuga.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ tortuga.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_tortuga_index') }}">back to list</a>
+
+    <a href="{{ path('app_tortuga_edit', {'id': tortuga.id}) }}">edit</a>
+
+    {{ include('tortuga/_delete_form.html.twig') }}
+{% endblock %}

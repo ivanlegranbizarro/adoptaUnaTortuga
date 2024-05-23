@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Tortuga{% endblock %}
+
+{% block body %}
+    <h1>Create new Tortuga</h1>
+
+    {{ include('tortuga/_form.html.twig') }}
+
+    <a href="{{ path('app_tortuga_index') }}">back to list</a>
+{% endblock %}
