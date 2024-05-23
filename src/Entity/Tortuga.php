@@ -17,7 +17,7 @@ class Tortuga
   private ?int $id = null;
 
   #[ORM\Column(length: 100)]
-  #[Assert\NotBlank('All turtles must have a name')]
+  #[Assert\NotBlank]
   #[Assert\Length(min: 2, minMessage: 'Please, use at least 2 characters')]
   #[Assert\Length(max: 100, maxMessage: 'Do you think you will remember his name?')]
   private ?string $name = null;
